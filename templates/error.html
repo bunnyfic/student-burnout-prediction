@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{ code }} — Student Burnout &amp; Dropout Risk Assessment</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-0:#070c1c;
+    --bg-1:#0c1630;
+    --surface:#111d3f;
+    --line:#22335f;
+    --text:#eaf0ff;
+    --muted:#8593b8;
+    --accent:#3fa0ff;
+    --accent-2:#5ee6c9;
+    --high:#ff5c72;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:
+      radial-gradient(1100px 550px at 12% -10%, #14275a55, transparent 60%),
+      radial-gradient(900px 500px at 110% 10%, #0d3a4a44, transparent 55%),
+      var(--bg-0);
+    color:var(--text);
+    font-family:'Inter', sans-serif;
+  }
+  .card{
+    max-width:460px;
+    width:90%;
+    text-align:center;
+    background:linear-gradient(180deg, var(--surface), var(--bg-1));
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:48px 36px;
+  }
+  .code{
+    font-family:'JetBrains Mono', monospace;
+    font-size:15px;
+    color:var(--high);
+    letter-spacing:.1em;
+    margin-bottom:10px;
+  }
+  h1{
+    font-family:'Sora', sans-serif;
+    font-size:26px;
+    font-weight:800;
+    margin:0 0 14px;
+  }
+  p{
+    color:var(--muted);
+    font-size:14.5px;
+    margin:0 0 30px;
+  }
+  a.button{
+    display:inline-block;
+    font-family:'Sora', sans-serif;
+    font-weight:700;
+    font-size:14.5px;
+    color:#031024;
+    background:linear-gradient(135deg, var(--accent-2), var(--accent));
+    padding:14px 34px;
+    border-radius:999px;
+    text-decoration:none;
+    box-shadow:0 14px 30px -12px #3fa0ff66;
+  }
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="code">ERROR {{ code }}</div>
+    <h1>Something took a wrong turn</h1>
+    <p>{{ message }}</p>
+    <a class="button" href="/">Back to assessment</a>
+  </div>
+</body>
+</html>
