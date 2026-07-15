@@ -1,7 +1,7 @@
 # student-burnout-prediction-system
 live demo : https://student-burnout-prediction-kuvl.onrender.com/
 
-> An AI-powered web application that predicts a student's **Burnout Score**, estimates **Dropout Risk**, and classifies the student's **Risk Level** using Machine Learning.
+> An AI-powered web application that predicts a student's **Burnout Score** and classifies the student's **Risk Level** using Machine Learning.
 
 <p align="center">
   <img src="https://img.shields.io/badge/Python-3.11-blue?logo=python">
@@ -19,17 +19,17 @@ Student burnout has become an increasingly important issue in modern education. 
 
 The application also estimates the student's dropout risk using a mathematical regression model and classifies the overall burnout level into Low, Medium, or High.
 
-the dataset i used is from kagle which had over 20 features and 1000000 records.
+the dataset i used is from kagle which had over 20 features and 1000000 records, I've uploaded it in the repo.
 ---
 
 ## ✨ Features
 
 - 📊 Predicts **Student Burnout Score**
-- 🎯 Estimates **Dropout Risk**
 - 🚦 Classifies **Risk Level**
 - 🧠 Powered by **CatBoost Regressor**
 - 🌐 Interactive Flask Web Application
-- 🎚️ User-friendly slider interface
+- 🎚️ User-friendly slider interface, works     
+     on both mobile and pc. 
 - 📈 Feature Importance Analysis
 - 💾 Trained model saved using Joblib
 
@@ -102,7 +102,6 @@ The model predicts burnout using the following features:
 The application returns:
 
 - Burnout Score
-- Dropout Risk (%)
 - Risk Level
   - 🟢 Low
   - 🟡 Medium
