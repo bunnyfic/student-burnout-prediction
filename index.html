@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Burnout &amp; Dropout Risk Assessment</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-0:#070c1c;
+    --bg-1:#0c1630;
+    --surface:#111d3f;
+    --surface-2:#152449;
+    --line:#22335f;
+    --text:#eaf0ff;
+    --muted:#8593b8;
+    --accent:#3fa0ff;
+    --accent-2:#5ee6c9;
+    --low:#43d9a3;
+    --med:#f5b942;
+    --high:#ff5c72;
+    --radius:14px;
+  }
+
+  *{box-sizing:border-box;}
+
+  body{
+    margin:0;
+    background:
+      radial-gradient(1100px 550px at 12% -10%, #14275a55, transparent 60%),
+      radial-gradient(900px 500px at 110% 10%, #0d3a4a44, transparent 55%),
+      var(--bg-0);
+    color:var(--text);
+    font-family:'Inter', sans-serif;
+    min-height:100vh;
+    line-height:1.5;
+  }
+
+  .wrap{
+    max-width:980px;
+    margin:0 auto;
+    padding:56px 24px 90px;
+  }
+
+  /* ---------- Header ---------- */
+  header{
+    display:flex;
+    align-items:center;
+    gap:16px;
+    margin-bottom:8px;
+  }
+
+  .mark{
+    width:44px;height:44px;
+    border-radius:12px;
+    background:linear-gradient(145deg, var(--accent), #1a5fc2);
+    display:flex;align-items:center;justify-content:center;
+    font-family:'JetBrains Mono', monospace;
+    font-weight:700;
+    font-size:18px;
+    color:#031024;
+    flex-shrink:0;
+    box-shadow:0 8px 24px -8px #3fa0ff88;
+  }
+
+  .eyebrow{
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--accent-2);
+    margin:0 0 4px;
+  }
+
+  h1{
+    font-family:'Sora', sans-serif;
+    font-size:clamp(28px, 4vw, 38px);
+    font-weight:800;
+    margin:0;
+    letter-spacing:-0.01em;
+  }
+
+  .lede{
+    color:var(--muted);
+    max-width:640px;
+    margin:18px 0 44px;
+    font-size:15.5px;
+  }
+
+  /* ---------- Section cards ---------- */
+  .section{
+    background:linear-gradient(180deg, var(--surface), var(--bg-1));
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:28px 30px 8px;
+    margin-bottom:22px;
+  }
+
+  .section-title{
+    display:flex;
+    align-items:baseline;
+    gap:10px;
+    margin-bottom:22px;
+  }
+
+  .section-title .num{
+    font-family:'JetBrains Mono', monospace;
+    color:var(--accent);
+    font-size:13px;
+  }
+
+  .section-title h2{
+    font-family:'Sora', sans-serif;
+    font-size:16px;
+    font-weight:600;
+    margin:0;
+    color:var(--text);
+  }
+
+  .grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:8px 36px;
+  }
+
+  @media (max-width:680px){
+    .grid{grid-template-columns:1fr;}
+  }
+
+  /* ---------- Sliders ---------- */
+  .field{
+    padding:16px 0 22px;
+    border-bottom:1px solid var(--line);
+  }
+  .grid .field:nth-last-child(1),
+  .grid .field:nth-last-child(2){
+    border-bottom:none;
+  }
+
+  .field-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:12px;
+  }
+
+  .field-head label{
+    font-size:14px;
+    font-weight:500;
+    color:var(--text);
+  }
+
+  .field-head .hint{
+    display:block;
+    font-size:12px;
+    color:var(--muted);
+    margin-top:2px;
+    font-weight:400;
+  }
+
+  .value-badge{
+    font-family:'JetBrains Mono', monospace;
+    font-size:13px;
+    min-width:38px;
+    text-align:center;
+    padding:3px 8px;
+    border-radius:7px;
+    background:var(--surface-2);
+    border:1px solid var(--line);
+    color:var(--accent-2);
+  }
+
+  input[type="range"]{
+    -webkit-appearance:none;
+    appearance:none;
+    width:100%;
+    height:6px;
+    border-radius:4px;
+    background:linear-gradient(90deg, var(--accent) 0%, var(--accent) 0%, #1c2b52 0%, #1c2b52 100%);
+    outline:none;
+    cursor:pointer;
+  }
+
+  input[type="range"]::-webkit-slider-thumb{
+    -webkit-appearance:none;
+    width:18px;height:18px;
+    border-radius:50%;
+    background:#eaf0ff;
+    border:3px solid var(--accent);
+    box-shadow:0 0 0 4px #3fa0ff22;
+    cursor:pointer;
+    transition:box-shadow .15s;
+  }
+  input[type="range"]::-webkit-slider-thumb:hover{
+    box-shadow:0 0 0 7px #3fa0ff33;
+  }
+  input[type="range"]::-moz-range-thumb{
+    width:18px;height:18px;
+    border-radius:50%;
+    background:#eaf0ff;
+    border:3px solid var(--accent);
+    cursor:pointer;
+  }
+
+  /* ---------- Submit ---------- */
+  .submit-row{
+    display:flex;
+    justify-content:center;
+    margin:38px 0 6px;
+  }
+
+  button.submit{
+    font-family:'Sora', sans-serif;
+    font-weight:700;
+    font-size:15px;
+    color:#031024;
+    background:linear-gradient(135deg, var(--accent-2), var(--accent));
+    border:none;
+    padding:16px 44px;
+    border-radius:999px;
+    cursor:pointer;
+    box-shadow:0 14px 30px -12px #3fa0ff66;
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  button.submit:hover{
+    transform:translateY(-2px);
+    box-shadow:0 18px 36px -12px #3fa0ff88;
+  }
+
+  /* ---------- Results ---------- */
+  .results{
+    margin-top:40px;
+    background:linear-gradient(180deg, var(--surface), var(--bg-1));
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:36px;
+    display:grid;
+    grid-template-columns:260px 1fr;
+    gap:36px;
+    align-items:center;
+  }
+
+  @media (max-width:680px){
+    .results{grid-template-columns:1fr; text-align:center;}
+  }
+
+  /* Gauge - signature element */
+  .gauge-wrap{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+  }
+
+  .gauge{
+    width:220px;
+    height:120px;
+    overflow:visible;
+  }
+
+  .gauge-needle{
+    transform-origin:110px 108px;
+    transition:transform 1s cubic-bezier(.2,.9,.25,1);
+  }
+
+  .gauge-score{
+    font-family:'JetBrains Mono', monospace;
+    font-size:34px;
+    font-weight:700;
+    margin-top:-6px;
+    color:var(--text);
+  }
+  .gauge-label{
+    font-size:12px;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    color:var(--muted);
+    margin-top:2px;
+  }
+
+  .results-detail h3{
+    font-family:'Sora', sans-serif;
+    font-size:13px;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:var(--muted);
+    margin:0 0 10px;
+  }
+
+  .badge{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    font-family:'JetBrains Mono', monospace;
+    font-weight:700;
+    font-size:15px;
+    padding:8px 18px;
+    border-radius:999px;
+    margin-bottom:22px;
+  }
+  .badge.LOW{ background:#43d9a322; color:var(--low); border:1px solid #43d9a355;}
+  .badge.MEDIUM{ background:#f5b94222; color:var(--med); border:1px solid #f5b94255;}
+  .badge.HIGH{ background:#ff5c7222; color:var(--high); border:1px solid #ff5c7255;}
+  .badge .dot{width:8px;height:8px;border-radius:50%;background:currentColor;}
+
+  .dropout-row{
+    margin-top:6px;
+  }
+  .dropout-row .label-row{
+    display:flex;
+    justify-content:space-between;
+    font-size:13px;
+    color:var(--muted);
+    margin-bottom:8px;
+  }
+  .dropout-row .label-row span:last-child{
+    font-family:'JetBrains Mono', monospace;
+    color:var(--text);
+  }
+  .bar-track{
+    width:100%;
+    height:10px;
+    border-radius:6px;
+    background:#1c2b52;
+    overflow:hidden;
+  }
+  .bar-fill{
+    height:100%;
+    border-radius:6px;
+    background:linear-gradient(90deg, var(--accent-2), var(--high));
+  }
+
+  footer{
+    text-align:center;
+    color:var(--muted);
+    font-size:12.5px;
+    margin-top:60px;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="mark">SB</div>
+    <div>
+      <p class="eyebrow">Student Wellbeing Model</p>
+      <h1>Burnout &amp; Dropout Risk Assessment</h1>
+    </div>
+  </header>
+
+  <p class="lede">Move each slider to reflect the student's current situation, on a scale of 0 (none / lowest) to 10 (extreme / highest). The model estimates a burnout score and translates it into a dropout risk.</p>
+
+  <form action="/predict" method="POST">
+
+    <div class="section">
+      <div class="section-title"><span class="num">01</span><h2>Academic Load</h2></div>
+      <div class="grid">
+
+        <div class="field">
+          <div class="field-head">
+            <label for="study_hours">Study hours per day
+              <span class="hint">Time spent studying daily</span>
+            </label>
+            <span class="value-badge" id="study_hours_val">5.0</span>
+          </div>
+          <input type="range" id="study_hours" name="study_hours" min="0" max="10" step="0.1" value="5">
+        </div>
+
+        <div class="field">
+          <div class="field-head">
+            <label for="exam_pressure">Exam pressure
+              <span class="hint">Perceived pressure around exams</span>
+            </label>
+            <span class="value-badge" id="exam_pressure_val">5.0</span>
+          </div>
+          <input type="range" id="exam_pressure" name="exam_pressure" min="0" max="10" step="0.1" value="5">
+        </div>
+
+        <div class="field">
+          <div class="field-head">
+            <label for="financial_stress">Financial stress
+              <span class="hint">Stress related to money / tuition</span>
+            </label>
+            <span class="value-badge" id="financial_stress_val">5.0</span>
+          </div>
+          <input type="range" id="financial_stress" name="financial_stress" min="0" max="10" step="0.1" value="5">
+        </div>
+
+        <div class="field">
+          <div class="field-head">
+            <label for="family_expectation">Family expectation
+              <span class="hint">Pressure to meet family expectations</span>
+            </label>
+            <span class="value-badge" id="family_expectation_val">5.0</span>
+          </div>
+          <input type="range" id="family_expectation" name="family_expectation" min="0" max="10" step="0.1" value="5">
+        </div>
+
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="num">02</span><h2>Emotional Wellbeing</h2></div>
+      <div class="grid">
+
+        <div class="field">
+          <div class="field-head">
+            <label for="stress_level">Stress level
+              <span class="hint">Overall day-to-day stress</span>
+            </label>
+            <span class="value-badge" id="stress_level_val">5.0</span>
+          </div>
+          <input type="range" id="stress_level" name="stress_level" min="0" max="10" step="0.1" value="5">
+        </div>
+
+        <div class="field">
+          <div class="field-head">
+            <label for="anxiety_score">Anxiety score
+              <span class="hint">Frequency/intensity of anxiety</span>
+            </label>
+            <span class="value-badge" id="anxiety_score_val">5.0</span>
+          </div>
+          <input type="range" id="anxiety_score" name="anxiety_score" min="0" max="10" step="0.1" value="5">
+        </div>
+
+        <div class="field">
+          <div class="field-head">
+            <label for="depression_score">Depression score
+              <span class="hint">Frequency/intensity of low mood</span>
+            </label>
+            <span class="value-badge" id="depression_score_val">5.0</span>
+          </div>
+          <input type="range" id="depression_score" name="depression_score" min="0" max="10" step="0.1" value="5">
+        </div>
+
+        <div class="field">
+          <div class="field-head">
+            <label for="mental_health_index">Mental health index
+              <span class="hint">10 = thriving, 0 = struggling</span>
+            </label>
+            <span class="value-badge" id="mental_health_index_val">5.0</span>
+          </div>
+          <input type="range" id="mental_health_index" name="mental_health_index" min="0" max="10" step="0.1" value="5">
+        </div>
+
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="num">03</span><h2>Lifestyle &amp; Support</h2></div>
+      <div class="grid">
+
+        <div class="field">
+          <div class="field-head">
+            <label for="sleep_hours">Sleep quality
+              <span class="hint">10 = well rested, 0 = sleep deprived</span>
+            </label>
+            <span class="value-badge" id="sleep_hours_val">5.0</span>
+          </div>
+          <input type="range" id="sleep_hours" name="sleep_hours" min="0" max="10" step="0.1" value="5">
+        </div>
+
+        <div class="field">
+          <div class="field-head">
+            <label for="physical_activity">Physical activity
+              <span class="hint">10 = very active, 0 = sedentary</span>
+            </label>
+            <span class="value-badge" id="physical_activity_val">5.0</span>
+          </div>
+          <input type="range" id="physical_activity" name="physical_activity" min="0" max="10" step="0.1" value="5">
+        </div>
+
+        <div class="field">
+          <div class="field-head">
+            <label for="social_support">Social support
+              <span class="hint">10 = strong support network</span>
+            </label>
+            <span class="value-badge" id="social_support_val">5.0</span>
+          </div>
+          <input type="range" id="social_support" name="social_support" min="0" max="10" step="0.1" value="5">
+        </div>
+
+      </div>
+    </div>
+
+    <div class="submit-row">
+      <button type="submit" class="submit">Assess Risk →</button>
+    </div>
+  </form>
+
+  {% if burnout_score is defined %}
+  <div class="results">
+
+    <div class="gauge-wrap">
+      <svg class="gauge" viewBox="0 0 220 120">
+        <path d="M10,110 A100,100 0 0,1 76,17"  stroke="#43d9a3" stroke-width="16" fill="none" stroke-linecap="round"/>
+        <path d="M80,14 A100,100 0 0,1 140,14"   stroke="#f5b942" stroke-width="16" fill="none" stroke-linecap="round"/>
+        <path d="M144,17 A100,100 0 0,1 210,110" stroke="#ff5c72" stroke-width="16" fill="none" stroke-linecap="round"/>
+        <line class="gauge-needle" x1="110" y1="108" x2="110" y2="26"
+              stroke="#eaf0ff" stroke-width="4" stroke-linecap="round"
+              style="transform: rotate({{ (burnout_score / 10 * 180) - 90 }}deg);"/>
+        <circle cx="110" cy="108" r="7" fill="#eaf0ff" stroke="#3fa0ff" stroke-width="3"/>
+      </svg>
+      <div class="gauge-score">{{ burnout_score }}</div>
+      <div class="gauge-label">Burnout Score / 10</div>
+    </div>
+
+    <div class="results-detail">
+      <h3>Overall Risk Level</h3>
+      <div class="badge {{ risk_level }}"><span class="dot"></span>{{ risk_level }}</div>
+
+      <div class="dropout-row">
+        <div class="label-row"><span>Estimated Dropout Risk</span><span>{{ dropout_risk }}%</span></div>
+        <div class="bar-track">
+          <div class="bar-fill" style="width: {{ dropout_risk }}%;"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  {% endif %}
+
+  <footer>Model outputs are estimates for guidance only and are not a clinical diagnosis.</footer>
+
+</div>
+
+<script>
+  const sliders = document.querySelectorAll('input[type="range"]');
+  sliders.forEach(function(slider){
+    const badge = document.getElementById(slider.id + '_val');
+    function update(){
+      const val = parseFloat(slider.value);
+      const pct = (val / 10) * 100;
+      slider.style.background = 'linear-gradient(90deg, #3fa0ff 0%, #3fa0ff ' + pct + '%, #1c2b52 ' + pct + '%, #1c2b52 100%)';
+      if(badge){ badge.textContent = val.toFixed(1); }
+    }
+    slider.addEventListener('input', update);
+    update();
+  });
+</script>
+
+</body>
+</html>
